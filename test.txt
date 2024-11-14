@@ -1,0 +1,2 @@
+df1.loc[df1['Industry'].isnull(), 'Industry'] = df1[df1['Industry'].isnull()].apply(IndustryCategory, axis=1)
+    df2.loc[df2['Industry'].isnull(), 'Industry'] = df2[df2['Industry'].isnull()].apply(IndustryCategory, axis=1)
