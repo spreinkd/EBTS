@@ -1,15 +1,17 @@
-def fill_industry_by_clientname(df):
-    # Step 1: Get distinct Clientname values where Industry is missing
-    distinct_clients = df[df['Industry'].isnull()].drop_duplicates(subset=['Clientname'])
-    
-    # Step 2: Apply IndustryCategory to create a dictionary with Clientname as keys
-    industry_dict = distinct_clients.set_index('Clientname').apply(IndustryCategory, axis=1).to_dict()
-    
-    # Step 3: Map this dictionary back to the original DataFrame's Industry column
-    df['Industry'] = df['Industry'].fillna(df['Clientname'].map(industry_dict))
-    
-    return df
+# Ensure QuoteFirstPayment is a datetime
+df['QuoteFirstPayment'] = pd.to_datetime(df['QuoteFirstPayment'])
 
-# Apply to both df1 and df2
-df1 = fill_industry_by_clientname(df1)
-df2 = fill_industry_by_clientname(df2)
+# Generate new rows
+new_rows = []
+for _, row in df.iterrows():
+    start_date = row['QuoteFirstPayment']
+    for i in range(row['term']):
+        new_row = row.copy()  # Copy all columns
+        new_row['QuoteFirstPayment'] = start_date + pd.DateOffset(months=i)  # Increment date
+        new_rows.append(new_row)
+
+# Create a new DataFrame for the generated rows
+result_df = pd.DataFrame(new_rows)
+
+# Reset index for cleanliness
+result_df.reset_index(drop=True, inplace=True)
