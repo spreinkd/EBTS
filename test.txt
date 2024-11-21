@@ -1,17 +1,4 @@
-# Ensure QuoteFirstPayment is a datetime
-df['QuoteFirstPayment'] = pd.to_datetime(df['QuoteFirstPayment'])
-
-# Generate new rows
-new_rows = []
-for _, row in df.iterrows():
-    start_date = row['QuoteFirstPayment']
-    for i in range(row['term']):
-        new_row = row.copy()  # Copy all columns
-        new_row['QuoteFirstPayment'] = start_date + pd.DateOffset(months=i)  # Increment date
-        new_rows.append(new_row)
-
-# Create a new DataFrame for the generated rows
-result_df = pd.DataFrame(new_rows)
-
-# Reset index for cleanliness
-result_df.reset_index(drop=True, inplace=True)
+CASE WHEN Quotes.DepositRate=0 THEN 0
+     WHEN (Quotes.DepositRate>0 and Quotes.DepositRate<=1) THEN (Quotes.Amount*Quotes.DepositRate)
+     ELSE Quotes.DepositRate 
+     END AS QuoteDownPayment,
