@@ -1,18 +1,9 @@
-# Step 1: Obtain Access Token
-data = {
-    "grant_type": "client_credentials",
-    "client_id": client_id,
-    "client_secret": client_secret,
-}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-headers = {
-    "Accept": "application/json",
-    "Accept-Language": "en-US",
-    "Content-Type": "application/json",
-}
-
-response = requests.post(token_url, json=data, headers=headers)
-
-# Check the response status and content
-print(response.status_code)
-print(response.text)
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<body onLoad="document.getElementById('this-form').submit()">
+		<form method="post" id="this-form" action="https://impl.workday.com/wday/authgwy/wintrust3/authorize">
+		    
+		</form>
+	</body>
+</html>
