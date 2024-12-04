@@ -1,19 +1,23 @@
-try:
-    # Fetch the token
-    token_response = requests.post(auth_url, headers=headers, data=data, auth=(client_id, client_secret))
-    
-    # Check for HTTP errors
-    token_response.raise_for_status()  # Raise error for HTTP codes >= 400
-    
-    # Parse the token
-    access_token = token_response.json().get("access_token")
-    
-    if access_token:
-        print("Access Token:", access_token)
-    else:
-        print("Failed to fetch token. Response:", token_response.json())
+import requests
 
-except requests.exceptions.RequestException as e:
-    print("Error during token request:", str(e))
-    # Print the response content for debugging
-    print("Response Content:", token_response.text)
+# Replace with your details
+auth_url = "A"
+token_url = "B" 
+client_id = "C" 
+client_secret = "D"
+
+# Step 1: Obtain Access Token
+data={
+        "grant_type": "client_credentials",
+        "client_id": client_id,
+        "client_secret": client_secret,
+    }
+headers={
+    "Accept": "application/json",
+    "Accept-Language": "en-US",
+    "Content-Type": "application/json",
+}
+response = requests.post( token_url,data=data,headers=headers)
+response
+
+<Response [400]>
