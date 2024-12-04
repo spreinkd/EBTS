@@ -1,24 +1,31 @@
 import requests
+from requests.auth import HTTPBasicAuth
 
-# Replace with your details
-auth_url = "AUTHORIZATION_ENDPOINT_URL"
-token_url = "TOKEN_ENDPOINT_URL"
-client_id = "YOUR_CLIENT_ID"
-client_secret = "YOUR_CLIENT_SECRET"
+# Token endpoint URL
+token_url = "https://example.com/oauth/token"
 
-# Step 1: Obtain Access Token
-response = requests.post(
-    token_url,
-    data={
-        "grant_type": "client_credentials",
-        "client_id": client_id,
-        "client_secret": client_secret,
-    },
-)
+# Client credentials
+client_id = "your_client_id"
+client_secret = "your_client_secret"
+
+# Headers
+headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+}
+
+# Payload
+payload = {
+    "grant_type": "client_credentials",
+    "scope": "read write",  # Adjust scope based on API documentation
+}
+
+# Send POST request (with Basic Auth if needed)
+response = requests.post(token_url, data=payload, headers=headers, auth=HTTPBasicAuth(client_id, client_secret))
 
 if response.status_code == 200:
-    token = response.json().get("access_token")
-    print(f"Access Token: {token}")
+    access_token = response.json().get("access_token")
+    print("Access token:", access_token)
 else:
-    print(f"Failed to retrieve token: {response.json()}")
-    exit()
+    print("Failed to get access token:")
+    print("Status Code:", response.status_code)
+    print("Response Text:", response.text)
